@@ -324,6 +324,8 @@ NSString * const ID = @"SDCycleScrollViewCell";
         } else if ([obj isKindOfClass:[NSURL class]]) {
             NSURL *url = (NSURL *)obj;
             urlString = [url absoluteString];
+        } else {
+            urlString = [obj valueForKey:@"photoUrl"];
         }
         if (urlString) {
             [temp addObject:urlString];
@@ -594,7 +596,11 @@ NSString * const ID = @"SDCycleScrollViewCell";
     }
     
     if (_titlesGroup.count && itemIndex < _titlesGroup.count) {
-        cell.title = _titlesGroup[itemIndex];
+        if ([_titlesGroup[itemIndex] isKindOfClass:[NSString class]]) {
+            cell.title = _titlesGroup[itemIndex];
+        }else{
+            cell.title = [_titlesGroup[itemIndex] valueForKeyPath:@"titleStr"];
+        }
     }
     
     if (!cell.hasConfigured) {
